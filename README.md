@@ -1,0 +1,1 @@
+This is my friend's and mine Project for the subject POS (Programmieren und Softwareengineering).
