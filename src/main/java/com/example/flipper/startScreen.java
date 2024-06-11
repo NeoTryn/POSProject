@@ -1,50 +1,44 @@
 package com.example.flipper;
 
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Node;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
-
 
 import java.awt.*;
-import java.util.Collection;
-import java.util.Objects;
+import java.io.IOException;
 
 public class startScreen {
     public Scene scene;
-    public VBox vbox;
 
     private Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private double width = screenSize.getWidth();
     private double height = screenSize.getHeight();
 
+    @FXML
     private Button startBtn;
+
+    @FXML
     private Button exitBtn;
 
-    public startScreen() {
-        vbox = new VBox();
-        scene = new Scene(vbox, (int)width, (int)height);
+    public startScreen() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("./POSProjekt/src/main/resources/startScreen.fxml"));
+        loader.setController(this);
+        Parent root = loader.load();
+        scene = new Scene(root, width, height);
 
-        vbox.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/style.css")).toExternalForm());
+        initialize();
+    }
 
-        startBtn = new Button("Start");
-        exitBtn = new Button("Exit");
+    @FXML
+    private void initialize() {
+        exitBtn.setOnAction(this::handleExitButtonAction);
+    }
 
-        startBtn.setId("startBtn");
-        exitBtn.setId("exitBtn");
-
-        vbox.setId("vbox");
-
-        exitBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                System.exit(0);
-            }
-        });
-
-        vbox.getChildren().addAll(startBtn, exitBtn);
+    private void handleExitButtonAction(ActionEvent event) {
+        System.exit(0);
     }
 
     public Button getStartBtn() {

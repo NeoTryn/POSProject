@@ -23,11 +23,11 @@
 }
 #brick-breaker_start-button{
     -fx-font-size: 20px;
-     -fx-background-image: url("Brick-Breaker_symbol.png");
+    -fx-background-image: url("Brick-Breaker_symbol.png");
 }
 #tic-tac-toe_start-button{
     -fx-font-size: 20px;
-    -fx-background-image: url("tic-tac-toe_symbol.png");
+    -fx-background-image: url("tic-tac-toe_symbol-on-hover.png");
 }
 
 #vbox {

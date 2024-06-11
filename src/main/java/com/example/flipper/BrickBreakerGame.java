@@ -14,6 +14,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -42,7 +43,7 @@ public class BrickBreakerGame extends Application {
     //public boolean isRunning = false;
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws IOException {
         Pane root = new Pane();
         Scene scene = new Scene(root, 800, 600);
         StartScreen = new startScreen();
@@ -87,9 +88,9 @@ public class BrickBreakerGame extends Application {
         });
 
         primaryStage.show();
-
-
     }
+
+
 
     private void initializeGame(Pane root) {
         root.getChildren().clear();

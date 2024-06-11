@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<TitledPane animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" text="Games" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.flipper.startScreen">
+    <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+            <children>
+                <Button id="brick-breaker_start-button" fx:id="startBtn" layoutX="74.0" layoutY="79.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="150.0" stylesheets="@style.css" text="Brick Breaker" />
+                <Button id="exitBtn" fx:id="exitBtn" layoutX="224.0" layoutY="239.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="150.0" stylesheets="@style.css" text="Exit" />
+            <Button id="tic-tac-toe_start-button" fx:id="startBtn1" layoutX="360.0" layoutY="79.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="150.0" stylesheets="@style.css" text="Tic-Tac-Toe 2" />
+            </children>
+        </AnchorPane>
+    </content>
+</TitledPane>
