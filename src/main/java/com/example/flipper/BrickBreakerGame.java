@@ -2,6 +2,8 @@ package com.example.flipper;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
@@ -29,14 +31,21 @@ public class BrickBreakerGame extends Application {
 
     private static final int BRICK_ROWS = 5;
     private static final int BRICK_COLUMNS = 10;
-    private static final String HIT_SOUND_FILE_PATH = "./Projekt_mit_Felix/flipper/music/El Primo Bailando Bara Bara Bara 22 segundoswav";
-    private static final String BACKGROUND_MUSIC_FILE_PATH = "./Projekt_mit_Felix/flipper/music/eslabn armado  jugaste y sufr slowed  reverb.wav";
-    private static final float VOLUME = -10.0f; // Adjust the volume here (in decibels)
+    private static final String HIT_SOUND_FILE_PATH = "music/bara.wav";
+    private static final String BACKGROUND_MUSIC_FILE_PATH = "music/yanomeno.wav";
+    private static final float VOLUME = -10.0f;
+
+    // Adjust the volume here (in decibels)
+
+    public startScreen StartScreen;
+
+    //public boolean isRunning = false;
 
     @Override
     public void start(Stage primaryStage) {
         Pane root = new Pane();
         Scene scene = new Scene(root, 800, 600);
+        StartScreen = new startScreen();
 
         // Load the CSS file
         try {
@@ -46,32 +55,40 @@ public class BrickBreakerGame extends Application {
             e.printStackTrace();
         }
 
-        hitSoundPlayer = new SoundPlayer(HIT_SOUND_FILE_PATH, VOLUME);
-        backgroundMusicPlayer = new BackgroundMusicPlayer(BACKGROUND_MUSIC_FILE_PATH, VOLUME);
-        backgroundMusicPlayer.playLooping();
-
-        initializeGame(root);
-
         primaryStage.setTitle("JavaFX Brick Breaker Game");
-        primaryStage.setScene(scene);
+        primaryStage.setScene(StartScreen.scene);
+
+        StartScreen.getStartBtn().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                primaryStage.setScene(scene);
+                initializeGame(root);
+                hitSoundPlayer = new SoundPlayer(HIT_SOUND_FILE_PATH, VOLUME);
+                backgroundMusicPlayer = new BackgroundMusicPlayer(BACKGROUND_MUSIC_FILE_PATH, VOLUME);
+                backgroundMusicPlayer.playLooping();
+
+                keysPressed = new HashSet<>();
+
+                // Animation timer to update the game state
+                AnimationTimer timer = new AnimationTimer() {
+                    @Override
+                    public void handle(long now) {
+                        if (!gameOver) {
+                            updateGame(root);
+                        }
+                    }
+                };
+                timer.start();
+
+                // Handle keyboard input for paddle control
+                scene.setOnKeyPressed(event -> keysPressed.add(event.getCode()));
+                scene.setOnKeyReleased(event -> keysPressed.remove(event.getCode()));
+            }
+        });
+
         primaryStage.show();
 
-        keysPressed = new HashSet<>();
 
-        // Animation timer to update the game state
-        AnimationTimer timer = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                if (!gameOver) {
-                    updateGame(root);
-                }
-            }
-        };
-        timer.start();
-
-        // Handle keyboard input for paddle control
-        scene.setOnKeyPressed(event -> keysPressed.add(event.getCode()));
-        scene.setOnKeyReleased(event -> keysPressed.remove(event.getCode()));
     }
 
     private void initializeGame(Pane root) {

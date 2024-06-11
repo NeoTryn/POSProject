@@ -29,3 +29,15 @@
     -fx-font-size: 20px;
     -fx-background-image: url("tic-tac-toe_symbol.png");
 }
+
+#vbox {
+    -fx-content-display: flex;
+    -fx-justify-content: center;
+    -fx-align-items: center;
+}
+
+#startBtn, #exitBtn {
+    -fx-background-color: orange;
+    -fx-border-width: 0px;
+    -fx-border-radius: 10px;
+}
