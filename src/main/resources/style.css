@@ -1,0 +1,31 @@
+.restart-button {
+    -fx-background-color: #ff6600; /* Background color */
+    -fx-text-fill: white; /* Text color */
+    -fx-font-size: 20px; /* Font size */
+    -fx-font-weight: bold; /* Font weight */
+    -fx-padding: 10px 20px; /* Padding */
+    -fx-border-radius: 10px; /* Rounded corners */
+    -fx-background-radius: 10px; /* Rounded background */
+    -fx-cursor: hand; /* Hand cursor */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 0); /* Shadow effect */
+}
+
+.restart-button:hover {
+    -fx-background-color: #ff8533; /* Lighter background on hover */
+}
+
+.restart-button:pressed {
+    -fx-background-color: #e65c00; /* Darker background on press */
+}
+
+.game-over-text {
+    -fx-text-fill: green;
+}
+#brick-breaker_start-button{
+    -fx-font-size: 20px;
+     -fx-background-image: url("Brick-Breaker_symbol.png");
+}
+#tic-tac-toe_start-button{
+    -fx-font-size: 20px;
+    -fx-background-image: url("tic-tac-toe_symbol.png");
+}
