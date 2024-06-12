@@ -30,8 +30,8 @@ public class BrickBreakerGame extends Application {
     private SoundPlayer hitSoundPlayer;
     private BackgroundMusicPlayer backgroundMusicPlayer;
 
-    private static final int BRICK_ROWS = 5;
-    private static final int BRICK_COLUMNS = 10;
+    private static final int BRICK_ROWS = 1;
+    private static final int BRICK_COLUMNS = 1;
     private static final String HIT_SOUND_FILE_PATH = "music/bara.wav";
     private static final String BACKGROUND_MUSIC_FILE_PATH = "music/yanomeno.wav";
     private static final float VOLUME = -10.0f;
@@ -41,6 +41,7 @@ public class BrickBreakerGame extends Application {
     public startScreen StartScreen;
     public MainBoard mainBoard;
 
+    public static Stage stage;
     //public boolean isRunning = false;
 
     @Override
@@ -49,6 +50,8 @@ public class BrickBreakerGame extends Application {
         Scene scene = new Scene(root, 800, 600);
         StartScreen = new startScreen();
         mainBoard = new MainBoard();
+
+        stage = primaryStage;
 
         Scene ticScene = new Scene(mainBoard.getBoard(), 600, 600);
 
@@ -159,9 +162,13 @@ public class BrickBreakerGame extends Application {
             backgroundMusicPlayer.resume();
         }
 
-        if (ball.getCircle().getCenterY() + ball.getCircle().getRadius() >= bottom.getY() || allBricksBroken()) {
+        if (ball.getCircle().getCenterY() + ball.getCircle().getRadius() >= bottom.getY()) {
             gameOver = true;
-            endGame(root);
+            endGame(root, "Game Over!");
+        }
+        else if(allBricksBroken()) {
+            gameOver = true;
+            endGame(root, "You Won!");
         }
 
         // Update paddle movement based on keys pressed
@@ -174,8 +181,8 @@ public class BrickBreakerGame extends Application {
         }
     }
 
-    private void endGame(Pane root) {
-        Text gameOverText = new Text("Game Over!");
+    private void endGame(Pane root, String text) {
+        Text gameOverText = new Text(text);
         gameOverText.getStyleClass().add("game-over-text");
         gameOverText.setFont(Font.font(100));
         gameOverText.setLayoutX(150);
@@ -188,10 +195,21 @@ public class BrickBreakerGame extends Application {
         restartButton.setLayoutY(350);
         restartButton.setOnAction(e -> initializeGame(root));
         restartButton.getStyleClass().add("restart-button");
+        mainMenuBtn.getStyleClass().add("restart-button");
 
+        mainMenuBtn.setLayoutX(330);
+        mainMenuBtn.setLayoutY(425);
+        mainMenuBtn.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                stage.setScene(StartScreen.scene);
+            }
+        });
 
         // Apply the CSS class
         root.getChildren().add(restartButton);
+        root.getChildren().add(mainMenuBtn);
 
         ball.getCircle().setVisible(false); // hide the ball
         backgroundMusicPlayer.stop(); // stop the background music when game ends

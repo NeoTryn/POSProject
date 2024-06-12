@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class startScreen {
-    public Scene scene;
+    public static Scene scene;
 
     private Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private double width = screenSize.getWidth();
@@ -48,6 +48,8 @@ public class startScreen {
 
         exitBtn.setPrefHeight(100);
         exitBtn.setPrefWidth(200);
+
+        exitBtn.getStyleClass().add("restart-button");
 
         exitBtn.setId("exitBtn");
         startBrickBtn.setId("startBrickBtn");

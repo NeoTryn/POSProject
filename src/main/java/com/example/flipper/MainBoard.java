@@ -1,7 +1,10 @@
 package com.example.flipper;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
@@ -11,6 +14,8 @@ import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 public class MainBoard {
 
@@ -64,9 +69,9 @@ public class MainBoard {
     public void updateMainBoard(int row, int col, char winner) {
         mainBoardState[row][col] = winner;
         if (checkWin(winner)) {
-            showWinner(winner);
+            showWinner(winner, board);
         } else if (checkDraw()) {
-            showWinner(' ');
+            showWinner(' ', board);
         }
     }
 
@@ -89,17 +94,51 @@ public class MainBoard {
         return true;
     }
 
-    private void showWinner(char winner) {
+    private void showWinner(char winner, GridPane root) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        if (winner == ' ') {
+        /*if (winner == ' ') {
             alert.setTitle("Game Over");
             alert.setHeaderText("It's a Draw!");
         } else {
             alert.setTitle("Game Over");
             alert.setHeaderText("Player " + winner + " Wins!");
         }
-        alert.showAndWait();
-        resetGame();
+        alert.showAndWait();*/
+
+        String text;
+
+        if (winner == 'X') {
+            text = "Player X Won!";
+        }
+        else if (winner == 'O') {
+            text = "Player O Won!";
+        }
+        else {
+            text = "It's a draw!";
+        }
+
+        alert.setTitle("Game Over!");
+        alert.setHeaderText(text);
+        Button restartButton = new Button("Restart");
+        Button mainMenuBtn = new Button("Main Menu");
+
+        restartButton.setLayoutX(350);
+        restartButton.setLayoutY(350);
+        restartButton.setOnAction(e -> resetGame());
+        restartButton.getStyleClass().add("restart-button");
+        mainMenuBtn.getStyleClass().add("restart-button");
+
+        mainMenuBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                BrickBreakerGame.stage.setScene(startScreen.scene);
+            }
+        });
+
+        mainMenuBtn.setLayoutX(330);
+        mainMenuBtn.setLayoutY(425);
+
+        alert
     }
 
     private void resetGame() {
