@@ -27,22 +27,19 @@ public class BrickBreakerGame extends Application {
     private int score;
     private Text scoreText;
     private Set<KeyCode> keysPressed;
-    private SoundPlayer hitSoundPlayer;
     private BackgroundMusicPlayer backgroundMusicPlayer;
+    private SoundPlayer celebrationSoundPlayer;
 
     private static final int BRICK_ROWS = 1;
     private static final int BRICK_COLUMNS = 1;
-    private static final String HIT_SOUND_FILE_PATH = "music/bara.wav";
     private static final String BACKGROUND_MUSIC_FILE_PATH = "music/yanomeno.wav";
+    private static final String CELEBRATION_SOUND_FILE_PATH = "music/Celebration.wav";
     private static final float VOLUME = -10.0f;
-
-    // Adjust the volume here (in decibels)
 
     public startScreen StartScreen;
     public MainBoard mainBoard;
 
     public static Stage stage;
-    //public boolean isRunning = false;
 
     @Override
     public void start(Stage primaryStage) throws IOException {
@@ -55,7 +52,6 @@ public class BrickBreakerGame extends Application {
 
         Scene ticScene = new Scene(mainBoard.getBoard(), 600, 600);
 
-        // Load the CSS file
         try {
             scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
         } catch (Exception e) {
@@ -71,13 +67,12 @@ public class BrickBreakerGame extends Application {
             public void handle(ActionEvent actionEvent) {
                 primaryStage.setScene(scene);
                 initializeGame(root);
-                hitSoundPlayer = new SoundPlayer(HIT_SOUND_FILE_PATH, VOLUME);
                 backgroundMusicPlayer = new BackgroundMusicPlayer(BACKGROUND_MUSIC_FILE_PATH, VOLUME);
                 backgroundMusicPlayer.playLooping();
+                celebrationSoundPlayer = new SoundPlayer(CELEBRATION_SOUND_FILE_PATH, VOLUME);
 
                 keysPressed = new HashSet<>();
 
-                // Animation timer to update the game state
                 AnimationTimer timer = new AnimationTimer() {
                     @Override
                     public void handle(long now) {
@@ -88,7 +83,6 @@ public class BrickBreakerGame extends Application {
                 };
                 timer.start();
 
-                // Handle keyboard input for paddle control
                 scene.setOnKeyPressed(event -> keysPressed.add(event.getCode()));
                 scene.setOnKeyReleased(event -> keysPressed.remove(event.getCode()));
             }
@@ -104,8 +98,6 @@ public class BrickBreakerGame extends Application {
         primaryStage.show();
     }
 
-
-
     private void initializeGame(Pane root) {
         root.getChildren().clear();
 
@@ -116,13 +108,11 @@ public class BrickBreakerGame extends Application {
         scoreText.setLayoutY(20);
         root.getChildren().add(scoreText);
 
-        // Initialize the ball, paddle, and bottom
         ball = new Ball(400, 300, 8);
         paddle = new Paddle(350, 550, 100, 10);
-        bottom = new Rectangle(0, 600, 800, 1); // bottom border
+        bottom = new Rectangle(0, 600, 800, 1);
         bottom.setFill(Color.TRANSPARENT);
 
-        // Initialize the bricks
         bricks = new Brick[BRICK_ROWS][BRICK_COLUMNS];
         for (int row = 0; row < BRICK_ROWS; row++) {
             for (int col = 0; col < BRICK_COLUMNS; col++) {
@@ -131,7 +121,6 @@ public class BrickBreakerGame extends Application {
             }
         }
 
-        // Add ball, paddle, and bottom to the scene
         root.getChildren().addAll(ball.getCircle(), paddle.getRectangle(), bottom);
 
         gameOver = false;
@@ -142,7 +131,6 @@ public class BrickBreakerGame extends Application {
         paddle.update();
         ball.checkCollision(paddle);
 
-        boolean hitBrick = false;
         for (int row = 0; row < BRICK_ROWS; row++) {
             for (int col = 0; col < BRICK_COLUMNS; col++) {
                 if (bricks[row][col] != null && ball.checkCollision(bricks[row][col])) {
@@ -150,28 +138,18 @@ public class BrickBreakerGame extends Application {
                     bricks[row][col] = null;
                     score++;
                     scoreText.setText("Score: " + score);
-                    hitBrick = true;
                 }
             }
-        }
-
-        if (hitBrick) {
-            backgroundMusicPlayer.pause();
-            hitSoundPlayer.play();
-        } else {
-            backgroundMusicPlayer.resume();
         }
 
         if (ball.getCircle().getCenterY() + ball.getCircle().getRadius() >= bottom.getY()) {
             gameOver = true;
             endGame(root, "Game Over!");
-        }
-        else if(allBricksBroken()) {
+        } else if (allBricksBroken()) {
             gameOver = true;
             endGame(root, "You Won!");
         }
 
-        // Update paddle movement based on keys pressed
         if (keysPressed.contains(KeyCode.LEFT)) {
             paddle.moveLeft();
         } else if (keysPressed.contains(KeyCode.RIGHT)) {
@@ -200,19 +178,20 @@ public class BrickBreakerGame extends Application {
         mainMenuBtn.setLayoutX(330);
         mainMenuBtn.setLayoutY(425);
         mainMenuBtn.setOnAction(new EventHandler<ActionEvent>() {
-
             @Override
             public void handle(ActionEvent actionEvent) {
                 stage.setScene(StartScreen.scene);
             }
         });
 
-        // Apply the CSS class
         root.getChildren().add(restartButton);
         root.getChildren().add(mainMenuBtn);
 
-        ball.getCircle().setVisible(false); // hide the ball
-        backgroundMusicPlayer.stop(); // stop the background music when game ends
+        ball.getCircle().setVisible(false);
+        backgroundMusicPlayer.stop();
+        if (text.equals("You Won!")) {
+            celebrationSoundPlayer.play();
+        }
     }
 
     private boolean allBricksBroken() {

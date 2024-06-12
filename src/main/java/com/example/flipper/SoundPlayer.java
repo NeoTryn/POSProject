@@ -1,44 +1,38 @@
 package com.example.flipper;
 
-import javax.sound.sampled.*;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class SoundPlayer {
     private Clip clip;
-    private FloatControl volumeControl;
 
-    public SoundPlayer(String soundFilePath, float volume) {
+    public SoundPlayer(String filePath, float volume) {
         try {
-            File soundFile = new File(soundFilePath);
+            File soundFile = new File(filePath);
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundFile);
             clip = AudioSystem.getClip();
             clip.open(audioInputStream);
-
-            // Set the volume
-            volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-            volumeControl.setValue(volume);
-
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            gainControl.setValue(volume);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void play() {
         if (clip != null) {
-            clip.setFramePosition(0); // rewind to the beginning
+            clip.setFramePosition(0);
             clip.start();
         }
     }
 
     public void stop() {
-        if (clip != null && clip.isRunning()) {
+        if (clip != null) {
             clip.stop();
         }
-    }
-
-    public boolean isPlaying() {
-        return clip != null && clip.isRunning();
     }
 }
