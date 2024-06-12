@@ -39,6 +39,7 @@ public class BrickBreakerGame extends Application {
     // Adjust the volume here (in decibels)
 
     public startScreen StartScreen;
+    public MainBoard mainBoard;
 
     //public boolean isRunning = false;
 
@@ -47,6 +48,9 @@ public class BrickBreakerGame extends Application {
         Pane root = new Pane();
         Scene scene = new Scene(root, 800, 600);
         StartScreen = new startScreen();
+        mainBoard = new MainBoard();
+
+        Scene ticScene = new Scene(mainBoard.getBoard(), 600, 600);
 
         // Load the CSS file
         try {
@@ -59,7 +63,7 @@ public class BrickBreakerGame extends Application {
         primaryStage.setTitle("JavaFX Brick Breaker Game");
         primaryStage.setScene(StartScreen.scene);
 
-        StartScreen.getStartBtn().setOnAction(new EventHandler<ActionEvent>() {
+        StartScreen.getStartBrickBtn().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 primaryStage.setScene(scene);
@@ -84,6 +88,13 @@ public class BrickBreakerGame extends Application {
                 // Handle keyboard input for paddle control
                 scene.setOnKeyPressed(event -> keysPressed.add(event.getCode()));
                 scene.setOnKeyReleased(event -> keysPressed.remove(event.getCode()));
+            }
+        });
+
+        StartScreen.getStartTicButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                primaryStage.setScene(ticScene);
             }
         });
 
