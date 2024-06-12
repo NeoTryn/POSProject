@@ -183,10 +183,14 @@ public class BrickBreakerGame extends Application {
         root.getChildren().add(gameOverText);
 
         Button restartButton = new Button("Restart");
+        Button mainMenuBtn = new Button("Main Menu");
         restartButton.setLayoutX(350);
         restartButton.setLayoutY(350);
         restartButton.setOnAction(e -> initializeGame(root));
-        restartButton.getStyleClass().add("restart-button"); // Apply the CSS class
+        restartButton.getStyleClass().add("restart-button");
+
+
+        // Apply the CSS class
         root.getChildren().add(restartButton);
 
         ball.getCircle().setVisible(false); // hide the ball

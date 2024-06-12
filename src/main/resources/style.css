@@ -21,23 +21,20 @@
 .game-over-text {
     -fx-text-fill: green;
 }
-#brick-breaker_start-button{
+
+#startBrickBtn {
+    -fx-background-image: url("/Brick-Breaker_symbol.png");
     -fx-font-size: 20px;
-    -fx-background-image: url("Brick-Breaker_symbol.png");
-}
-#tic-tac-toe_start-button{
-    -fx-font-size: 20px;
-    -fx-background-image: url("tic-tac-toe_symbol-on-hover.png");
 }
 
-#vbox {
-    -fx-content-display: flex;
-    -fx-justify-content: center;
-    -fx-align-items: center;
+#startTicBtn {
+    -fx-background-image: url("/tic-tac-toe_symbol-on-hover.png");
+    -fx-font-size: 20px;
 }
 
-#startBtn, #exitBtn {
+#exitBtn {
     -fx-background-color: orange;
     -fx-border-width: 0px;
-    -fx-border-radius: 10px;
+    -fx-background-radius: 20px;
+    -fx-font-size: 20px;
 }

@@ -11,6 +11,7 @@ import javafx.scene.layout.AnchorPane;
 
 import java.awt.*;
 import java.io.IOException;
+import java.util.Objects;
 
 public class startScreen {
     public Scene scene;
@@ -36,7 +37,21 @@ public class startScreen {
         startTicBtn.setTranslateY(300);
         startTicBtn.setTranslateX(800);
         exitBtn.setTranslateY(500);
-        exitBtn.setTranslateX(700);
+        exitBtn.setTranslateX(675);
+
+        root.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/style.css")).toExternalForm());
+
+        startBrickBtn.setPrefHeight(100);
+        startBrickBtn.setPrefWidth(200);
+        startTicBtn.setPrefHeight(100);
+        startTicBtn.setPrefWidth(200);
+
+        exitBtn.setPrefHeight(100);
+        exitBtn.setPrefWidth(200);
+
+        exitBtn.setId("exitBtn");
+        startBrickBtn.setId("startBrickBtn");
+        startTicBtn.setId("startTicBtn");
 
         root.getChildren().addAll(startBrickBtn,startTicBtn, exitBtn);
 
